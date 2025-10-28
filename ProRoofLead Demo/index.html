@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ProRoofLead - Sales Demo Presentation</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&family=Lato:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Base Styles --- */
+        body {
+            margin: 0;
+            padding: 0 0 70px 0; /* Increased bottom padding for nav */
+            font-family: 'Lato', Arial, sans-serif;
+            /* Apply gradient to body as a fallback */
+            background: linear-gradient(135deg, #e0f7fa 0%, #fdfdfd 100%); 
+            color: #4a4a4a; /* Darker grey text, matching website body */
+            line-height: 1.7;
+            scroll-behavior: smooth;
+        }
+        
+        /* --- Keyframes for subtle pulse animation --- */
+        @keyframes pulse-blue {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.02); opacity: 0.15; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+        @keyframes pulse-orange {
+            0% { transform: scale(1); opacity: 0.1; }
+            50% { transform: scale(1.02); opacity: 0.15; }
+            100% { transform: scale(1); opacity: 0.1; }
+        }
+
+        /* --- Slide Structure & Transitions --- */
+        .slide {
+            min-height: 100vh;
+            padding: 70px 50px; /* Generous padding */
+            box-sizing: border-box;
+            display: flex; /* Use flex for vertical centering */
+            flex-direction: column;
+            justify-content: center;
+            align-items: center; /* Center content horizontally */
+            /* Gradient on ALL slides */
+            background: linear-gradient(135deg, #e0f7fa 0%, #fdfdfd 100%); 
+            opacity: 0;
+            visibility: hidden; /* Use visibility for smoother transition */
+            transition: opacity 0.7s ease-in-out, visibility 0s 0.7s linear; /* Fade transition */
+            position: absolute;
+            width: 100%;
+            top: 0;
+            left: 0;
+            border-bottom: 1px solid #e8edf1; /* Lighter border */
+            overflow: hidden; /* Hide overflow for decorative elements */
+        }
+        /* Removed :nth-child(even) as all slides have the gradient */
+        .slide.active {
+            opacity: 1;
+            visibility: visible; /* Make visible */
+            position: relative;
+             transition: opacity 0.7s ease-in-out, visibility 0s 0s linear; /* Show instantly */
+        }
+        .slide-content {
+            max-width: 980px; /* Consistent width */
+            width: 100%; /* Ensure content takes width */
+            margin: auto;
+            text-align: center;
+            transform: scale(0.99); 
+            transition: transform 0.6s ease-out; /* Subtle zoom-in for content */
+            z-index: 10; /* Ensure content is above decorative elements */
+            position: relative;
+        }
+        .slide.active .slide-content {
+            transform: scale(1);
+        }
+
+        /* NEW: Dual Decorative elements for visual interest & color */
+        .slide::before {
+            content: '';
+            position: absolute;
+            top: -15%; 
+            right: -10%; 
+            width: 300px; /* Size of the element */
+            height: 300px;
+            background: radial-gradient(circle, #001F3F 0%, rgba(0, 31, 63, 0) 70%); /* Dark navy radial gradient */
+            border-radius: 40% 60% 70% 30% / 30% 50% 70% 50%; /* Organic, blob-like shape */
+            opacity: 0.1; /* Very subtle */
+            z-index: 1; /* Behind content */
+            animation: pulse-blue 5s infinite ease-in-out alternate; /* Gentle animation */
+        }
+        .slide::after {
+            content: '';
+            position: absolute;
+            bottom: -15%; 
+            left: -10%; 
+            width: 250px; /* Size of the element */
+            height: 250px;
+            background: radial-gradient(circle, #ff8c00 0%, rgba(255, 140, 0, 0) 70%); /* Orange radial gradient */
+            border-radius: 70% 30% 50% 50% / 50% 50% 70% 30%; /* Different organic shape */
+            opacity: 0.1; /* Very subtle */
+            z-index: 1; /* Behind content */
+            animation: pulse-orange 6s infinite ease-in-out alternate; /* Slower animation */
+        }
+        
+        /* Hide decorative elements on intro/outro slides */
+        #slide1::before, #slide1::after, 
+        #slide14::before, #slide14::after, 
+        #slide15::before, #slide15::after { 
+            display: none; 
+        }
+
+
+        /* --- Branding Elements --- */
+        .logo {
+            max-width: 190px;
+            height: auto;
+            margin-bottom: 45px; /* More space below logo */
+        }
+        .logo-small {
+            max-width: 95px;
+            position: absolute;
+            top: 25px;
+            left: 30px;
+            opacity: 0.9;
+        }
+
+        /* --- Typography Enhancements (Web-Aligned) --- */
+        h1, h2, h3 {
+            font-family: 'Poppins', sans-serif;
+            color: #001F3F; /* Website's primary dark navy */
+            font-weight: 700;
+            line-height: 1.35;
+             letter-spacing: -0.5px; /* Slightly tighter headings */
+        }
+        h1 {
+            font-size: 44px; /* Back to original, less bold */
+            margin-bottom: 18px;
+        }
+        h2 {
+            font-size: 30px;
+            margin-top: 55px; /* More space above section titles */
+            margin-bottom: 30px;
+            border-bottom: 3px solid #ff8c00; /* Thicker Orange accent (matches site) */
+            display: inline-block;
+            padding-bottom: 8px;
+            border-radius: 0 0 4px 4px; /* Softer bottom border */
+            transition: border-color 0.3s ease;
+        }
+        h3 {
+             font-size: 22px;
+             font-weight: 600;
+             color: #001F3F; /* Consistent navy */
+             margin-top: 35px;
+             margin-bottom: 18px;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 22px;
+            color: #4a4a4a; /* Website's body text color */
+            max-width: 750px; /* Limit paragraph width for readability */
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .subtext {
+             font-size: 19px; /* Slightly larger subtext, original value */
+             color: #7a8a9a; /* Lighter grey-blue (Kept for hierarchy) */
+             margin-top: -10px;
+             margin-bottom: 35px;
+        }
+        strong, b { /* Ensure consistent bolding */
+            font-weight: 700;
+            color: #001F3F; /* Website's primary dark navy */
+        }
+
+        /* --- Enhanced CTA Button (Web-Aligned) --- */
+        .cta-button {
+            display: inline-block;
+            background-color: #ff8c00; /* Solid orange matching website */
+            color: #ffffff !important;
+            padding: 18px 40px; /* More padding */
+            text-decoration: none;
+            border-radius: 50px; /* Pill shape */
+            font-weight: 700; /* Bolder, matching website */
+            font-size: 19px; /* Matching website button */
+            font-family: 'Poppins', sans-serif;
+            margin-top: 40px;
+            transition: all 0.3s ease;
+            border: none;
+            cursor: pointer;
+            box-shadow: 0 6px 15px rgba(255, 140, 0, 0.25); /* More prominent ORANGE glow */
+        }
+        .cta-button:hover {
+            background-color: #e67e00; /* Darker orange on hover, matching website */
+            transform: translateY(-3px) scale(1.02); /* More noticeable hover effect */
+            box-shadow: 0 8px 20px rgba(255, 140, 0, 0.35); /* Stronger ORANGE glow */
+            color: #ffffff !important;
+        }
+
+        /* --- Polished Image Placeholder (Card Style) --- */
+        .image-placeholder {
+            border: 1px solid #dce4eb; /* Lighter, softer border */
+            padding: 20px; /* Slightly less padding */
+            margin: 35px auto;
+            background-color: #ffffff; /* Make it a "card" */
+            color: #a0aec0; /* Lighter placeholder text */
+            font-style: normal; /* Less distracting */
+            font-size: 15px;
+            max-width: 78%;
+            min-height: 220px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px; /* Smoother corners */
+            text-align: center;
+            box-shadow: 0 5px 15px rgba(0, 31, 63, 0.1); /* Branded NAVY shadow */
+            transition: all 0.3s ease;
+        }
+        .image-placeholder:hover {
+            transform: translateY(-3px); /* Lift on hover */
+            box-shadow: 0 8px 20px rgba(0, 31, 63, 0.15); /* Stronger NAVY shadow */
+        }
+         .image-placeholder img {
+             max-width: 100%;
+             max-height: 350px; /* Allow taller images */
+             height: auto;
+             display: block;
+             margin: auto;
+             border-radius: 6px; /* Rounded corners for images */
+         }
+         .image-placeholder .placeholder-text {
+             padding: 10px;
+             line-height: 1.4;
+         }
+
+        /* --- Polished Navigation (Web-Aligned) --- */
+        .footer-nav {
+             position: fixed;
+             bottom: 20px; /* Higher */
+             left: 50%;
+             transform: translateX(-50%);
+             background-color: #001F3F; /* Matching website footer */
+             padding: 12px 30px; /* More padding for better feel */
+             border-radius: 50px; /* Pill shape */
+             z-index: 1000;
+             box-shadow: 0 8px 25px rgba(0, 31, 63, 0.35); /* More prominent NAVY shadow */
+             display: flex; /* Align items */
+             align-items: center;
+        }
+         .footer-nav button {
+             background-color: #ff8c00;
+             color: white;
+             border: none;
+             padding: 10px 20px;
+             margin: 0 10px;
+             border-radius: 25px; /* Pill shape buttons */
+             cursor: pointer;
+             font-size: 15px;
+             font-weight: 600;
+             font-family: 'Poppins', sans-serif;
+             transition: background-color 0.3s ease, transform 0.2s ease;
+         }
+         .footer-nav button:hover {
+              background-color: #e67e00;
+              transform: scale(1.08); /* More noticeable scale on hover */
+         }
+          .footer-nav button:active {
+              transform: scale(0.95); /* Click effect */
+          }
+         .footer-nav span {
+             color: #eef2f5; /* Light grey/blue text */
+             margin: 0 18px;
+             font-size: 15px;
+             font-weight: 600;
+             font-family: 'Poppins', sans-serif;
+         }
+
+        /* --- Layout & List Styling --- */
+        .two-columns { display: flex; align-items: flex-start; justify-content: space-between; text-align: left; gap: 45px; margin-top: 45px;}
+        .column { flex: 1; }
+        .column ul { padding-left: 0; margin-top: 15px; list-style: none; }
+        .column li { margin-bottom: 12px; font-size: 17px; }
+        .column li::before { /* Custom bullet */
+            content: "\2713"; /* Checkmark */
+            color: #ff8c00; /* Orange */
+            font-weight: bold;
+            display: inline-block;
+            width: 1.2em;
+            margin-left: -1.2em;
+            margin-right: 0.5em;
+        }
+        
+        /* Revised card styles for Step 1-2-3 on Slide 13 - more prominent */
+        #slide13 .column {
+            background-color: #ffffff; /* White card background */
+            box-shadow: 0 5px 15px rgba(0, 31, 63, 0.08); /* More noticeable subtle NAVY shadow */
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        #slide13 .column:hover {
+            transform: translateY(-5px); /* Lift on hover */
+            box-shadow: 0 8px 20px rgba(0, 31, 63, 0.12); /* Stronger NAVY shadow on hover */
+        }
+
+
+        /* --- Slide Specific Design Adjustments --- */
+        #slide2 .slide-content, #slide12 .slide-content, #slide13 .slide-content { text-align: left; } /* Align left for list/process slides */
+        #slide11 p, #slide12 p, #slide12 ul { font-size: 18px; }
+        #slide12 ul { margin-top: 20px; }
+        #slide12 li span { margin-right: 15px; font-size: 24px; vertical-align: middle; line-height: 1; }
+        #slide13 .column h3 { margin-top: 0; text-align: center; }
+        #slide13 .column p { text-align: center; }
+        #slide15 p { font-size: 18px; margin-bottom: 12px; line-height: 1.5; }
+        #slide15 h3 { margin-bottom: 25px; font-size: 26px; }
+        #slide15 a { 
+            font-weight: 600; 
+            transition: color 0.3s ease; 
+            color: #001F3F; /* Start as navy */
+            text-decoration: none;
+        }
+        #slide15 a:hover { color: #ff8c00; } /* Hover to orange */
+
+        /* --- Responsive Refinements --- */
+        @media only screen and (max-width: 768px) {
+            .slide { padding: 50px 25px; min-height: 85vh; }
+            /* Adjust decorative elements for mobile */
+            .slide::before { 
+                width: 150px;
+                height: 150px;
+                top: -5%;
+                right: -5%;
+            }
+            .slide::after { 
+                width: 120px;
+                height: 120px;
+                bottom: -5%;
+                left: -5%;
+            }
+            
+            h1 { font-size: 30px; } /* Back to smaller on mobile */
+            h2 { font-size: 24px; }
+            h3 { font-size: 20px; }
+            p, .subtext, .column li { font-size: 16px; }
+            .subtext { font-size: 17px; } /* Slightly adjusted for mobile */
+            .cta-button { font-size: 18px; padding: 16px 30px; }
+            .two-columns { flex-direction: column; gap: 25px; }
+            .logo-small { max-width: 75px; top: 20px; left: 20px; }
+            .footer-nav { width: calc(100% - 30px); padding: 8px 15px; bottom: 10px; }
+            .footer-nav button { padding: 9px 15px; font-size: 13px; margin: 0 5px;}
+            .footer-nav span { margin: 0 10px; font-size: 13px; }
+            .image-placeholder { min-height: 150px; font-size: 13px; max-width: 90%; }
+            #slide11 p { font-size: 16px;}
+            #slide11 p:first-of-type { font-size: 40px; } /* Price on mobile */
+        }
+    </style>
+</head>
+<body>
+
+<div class="slide active" id="slide1">
+    <div class="slide-content">
+        <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo">
+        <h1>Stop Waiting For Referrals. Start Dominating Your Local Market.</h1>
+        <p class="subtext">The Automated Lead System for Growth-Focused Roofers.</p>
+        <p style="margin-top: 50px; font-size: 16px; color: #7a8a9a;">Presented by: The ProRoofLead Sales Team</p>
+    </div>
+</div>
+
+<div class="slide" id="slide2">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content" style="text-align: left; max-width: 800px;">
+        <h2>Your Path to Predictable Roofing Growth</h2>
+        <div class="image-placeholder">
+             <img src="images/slide2.png" alt="Stressed roofer vs. slow Word-of-Mouth leads graphic" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Stressed roofer vs. slow 'Word-of-Mouth' leads graphic</div>
+        </div>
+        <p>Thanks for your time today. Great connecting.</p>
+        <p>Quick check: You're running a roofing business in <strong>your local area</strong>, and like many successful roofers, looking to scale beyond just word-of-mouth, especially considering <strong>the current advertising landscape</strong>. Correct?</p>
+        <p><strong>Our goal today is simple:</strong> Show you exactly how ProRoofLead uses targeted Meta Ads to bring you consistent, qualified inspection leads, and how our <strong>easy-to-use system</strong> ensures you connect with them instantly. No complex tech talk, just results.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide3">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Relying ONLY on Referrals = Unpredictable Growth</h2>
+        <div class="image-placeholder">
+             <img src="images/slide3.png" alt="Stressed roofer vs. slow Word-of-Mouth leads graphic" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Stressed roofer vs. slow 'Word-of-Mouth' leads graphic</div>
+        </div>
+        <p>Word-of-mouth is great, but it's slow, impossible to scale, and leaves your income up to chance.</p>
+        <p>Door-knocking is expensive (often $45-$65 per <strong>potential</strong> lead) and inefficient.</p>
+        <p><strong>Crucially:</strong> Homeowners needing roof inspections are scrolling Facebook & Instagram daily. If you're not there consistently, you're missing out.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide4">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Meta Ads: Reach the <strong>Right</strong> Homeowners, <strong>Before</strong> Competitors Do</h2>
+        <div class="image-placeholder">
+             <img src="images/slide4.png" alt="Map showing targeted local neighborhoods with FB/IG icons" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Map showing targeted local neighborhoods with FB/IG icons</div>
+        </div>
+        <p>Meta Ads let you put your 'Free Inspection' offer directly in front of homeowners in the <strong>exact neighborhoods</strong> you want to work in.</p>
+        <p><strong>The situation in your local market is key:</strong> <em>Instagram and Facebook ads are the best way to get appointments set, don't be left behind.</em></p>
+        <p>This isn't random advertising; it's <strong>targeted lead generation</strong>. We put your brand consistently in front of thousands locally, making <strong>you</strong> the go-to choice.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide5">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>ProRoofLead: Your Ads, Leads & Follow-Up - Automated.</h2>
+        <div class="image-placeholder">
+             <img src="images/slide5.png" alt="Simple diagram: Ad -> Landing Page -> Instant Notification -> CRM -> Booked Inspection" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Diagram Placeholder: Ad -> Landing Page -> Instant Notification -> CRM -> Booked Inspection</div>
+        </div>
+        <p>We combine proven Meta Ad strategies with a powerful, <strong>easy-to-use</strong> CRM system built on GoHighLevel, specifically configured for roofers. It’s designed to turn ad clicks into profitable jobs, effortlessly.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide6">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Step 1: Ads That Work - Managed For You</h2>
+        <div class="image-placeholder">
+             <img src="images/slide6.png" alt="Examples of proven roofing ad creatives" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+              <div class="placeholder-text" style="display: none;">Image Placeholder: Examples of proven roofing ad creatives</div>
+        </div>
+        <p>Forget guesswork. We deploy ads using creatives and copy <strong>proven to convert</strong> in the roofing niche.</p>
+        <p>Our <strong>Advantage+ strategy</strong> means Meta's AI constantly optimizes for the best results.</p>
+        <p><strong>Your effort? Minimal.</strong> We handle the ad setup, management, and weekly optimization.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide7">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Step 2: Capture Every Click - Your High-Conversion Page</h2>
+         <div class="image-placeholder">
+            <img src="images/slide7.png" alt="Mockup of the clean landing page with form visible" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Mockup of the clean landing page with form visible</div>
+        </div>
+        <p>Ad clicks go directly to a simple, mobile-friendly page focused <strong>only</strong> on getting the homeowner to request their free inspection.</p>
+        <p><strong>No distractions.</strong> The form is right there. We typically see <strong>8-15% conversion rates</strong>.</p>
+        <p>Setup? <strong>Done.</strong> It’s part of the system we deploy for you.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide8">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Step 3: THE MAGIC - Never Miss a Lead Again!</h2>
+         <div class="image-placeholder">
+            <img src="images/slide8.png" alt="Split Screen - Instant SMS/App Notification & Roofer answering phone" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Split Screen - Instant SMS/App Notification & Roofer answering phone</div>
+        </div>
+        <p>This is the game-changer. The <strong>second</strong> a homeowner hits 'Submit':</p>
+        <p style="font-size: 20px; color: #001F3F; font-weight: 600;">1. <strong>Your phone rings</strong> (Our Call Connect system tells you it's a new lead).</p>
+        <p style="font-size: 20px; color: #001F3F; font-weight: 600;">2. <strong>You get an SMS & Email alert</strong> with their details.</p>
+        <p><strong>It's incredibly simple:</strong> Just answer the phone and talk to a hot lead <strong>before</strong> they call anyone else. This speed closes more deals.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide9">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Step 4: Stay Organized Effortlessly - Your Clear Pipeline</h2>
+        <div class="image-placeholder">
+             <img src="images/slide9.png" alt="Screenshot of the simple GHL Pipeline View" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Image Placeholder: Screenshot of the simple GHL Pipeline View</div>
+        </div>
+        <p>No more lost leads. Every lead automatically lands in your simple, visual pipeline.</p>
+        <p>See exactly where each prospect is – from new request to booked inspection to closed deal.</p>
+        <p>Track potential revenue (Avg. $15k per opportunity!) and manage follow-ups easily.</p>
+        <p><strong>Using it is simple:</strong> Just drag-and-drop cards. We handle the complex automation.</p>
+    </div>
+</div>
+
+<div class="slide" id="slide10">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>The Result: Consistent Leads & Scalable Growth</h2>
+         <div class="image-placeholder">
+            <img src="images/slide10.png" alt="Simple graphic showing key results - 5-8 leads/wk, Higher Close Rate, More Time" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+             <div class="placeholder-text" style="display: none;">Graphic Placeholder: Key results - 5-8 leads/wk, Higher Close Rate, More Time</div>
+        </div>
+        <div style="text-align: left; max-width: 600px; margin: 30px auto;">
+             <p style="font-size: 20px; margin-bottom: 18px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; font-weight: bold;">&#10004;</span> <strong>5-8+ Qualified Inspection Requests Per Week</strong></p>
+             <p style="font-size: 20px; margin-bottom: 18px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; font-weight: bold;">&#10004;</span> <strong>Higher Close Rates (Instant Contact Advantage)</strong></p>
+             <p style="font-size: 20px; margin-bottom: 18px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; font-weight: bold;">&#10004;</span> <strong>Predictable Revenue Stream</strong></p>
+             <p style="font-size: 20px; margin-bottom: 18px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; font-weight: bold;">&#10004;</span> <strong>More Time Focusing on Jobs, Less on Chasing</strong></p>
+             <p style="font-size: 20px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; font-weight: bold;">&#10004;</span> <strong>Become the Recognizable Go-To Roofer</strong></p>
+        </div>
+    </div>
+</div>
+
+<div class="slide" id="slide11">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Your Investment in Predictable Growth</h2>
+        <p style="font-size: 56px; font-weight: 700; color: #001F3F; margin-top: 35px; margin-bottom: 5px;">$300 <span style="font-size: 30px; font-weight: 400; color: #555;">per Week</span></p>
+        <p class="subtext" style="font-size: 18px;">(Billed Bi-Weekly at $600)</p>
+        <p style="margin-top: 40px; font-size: 18px;">Minimum initial commitment: <strong>4 Weeks</strong> ($1200 total to start).</p>
+        <p style="font-size: 18px;">Month-to-Month flexibility thereafter.</p>
+        <p style="font-size: 18px; margin-top: 25px;"><strong>No long-term contracts required. Ever.</strong></p>
+    </div>
+</div>
+
+<div class="slide" id="slide12">
+     <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Maximum Value, Zero Waste</h2>
+        <div class="image-placeholder">
+             <img src="images/slide12.png" alt="Simple chart showing $200 Ads, $50 CRM, $50 Support" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="placeholder-text" style="display: none;">Chart Placeholder: Investment Allocation - $200 Ads, $50 CRM, $50 Support</div>
+        </div>
+         <p style="text-align: left; max-width: 600px; margin: 25px auto;">Your weekly investment breaks down simply:</p>
+         <ul style="text-align: left; max-width: 580px; margin: 0 auto 25px auto; list-style: none; padding-left: 0;">
+              <li style="margin-bottom: 18px; font-size: 18px;"><span style="color: #ff8c00; font-size: 24px; vertical-align: middle; margin-right: 15px; line-height: 1;">&#9679;</span> <strong>$200/wk -> Direct Meta Ad Spend:</strong> Fueling your lead engine with targeted visibility.</li>
+              <li style="margin-bottom: 18px; font-size: 18px;"><span style="color: #001F3F; font-size: 24px; vertical-align: middle; margin-right: 15px; line-height: 1;">&#9679;</span> <strong>$50/wk -> GHL CRM Platform & Automation:</strong> The system working 24/7 for you.</li>
+              <li style="font-size: 18px;"><span style="color: #7a8a9a; font-size: 24px; vertical-align: middle; margin-right: 15px; line-height: 1;">&#9679;</span> <strong>$50/wk -> Dedicated Support & Weekly Ad Optimization:</strong> We keep things running smoothly.</li>
+         </ul>
+         <p style="font-style: italic; font-size: 17px; color: #7a8a9a;">(The return? Just one closed roof often covers the investment for months.)</p>
+    </div>
+</div>
+
+<div class="slide" id="slide13">
+    <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h2>Launch Your Lead Engine in 3 Simple Steps</h2>
+         <div class="image-placeholder">
+             <img src="images/slide13.png" alt="Simple graphic: 1. Sign Up -> 2. Provide Info -> 3. Go Live" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+            <div class="placeholder-text" style="display: none;">Graphic Placeholder: 1. Sign Up -> 2. Provide Info -> 3. Go Live</div>
+        </div>
+        <div class="two-columns" style="max-width: 850px; margin: 40px auto; text-align: center;">
+             <div class="column" style="background-color: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e8edf1;"><h3>Step 1: Sign Up Today</h3><p class="subtext" style="font-size: 16px;">Secure your spot (limited clients per area).</p></div>
+             <div class="column" style="background-color: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e8edf1;"><h3>Step 2: Provide Your Details</h3><p class="subtext" style="font-size: 16px;">Fill out our quick onboarding form.</p></div>
+             <div class="column" style="background-color: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e8edf1;"><h3>Step 3: Go Live in 48-72 Hours</h3><p class="subtext" style="font-size: 16px;">We deploy your system & launch ads.</p></div>
+        </div>
+    </div>
+</div>
+
+<div class="slide" id="slide14">
+    <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo-small">
+    <div class="slide-content">
+        <h1>Ready to Stop Waiting and Start Scaling?</h1>
+        <p>Let's get ProRoofLead working for <strong>your company</strong>.</p>
+        <a href="[YOUR_PAYMENT_OR_FINAL_BOOKING_LINK]" target="_blank" class="cta-button">GET STARTED TODAY</a>
+        <h2 style="margin-top: 60px;">What questions do you have for me?</h2>
+    </div>
+</div>
+
+<div class="slide" id="slide15">
+    <div class="slide-content" style="text-align: center;">
+         <img src="https://www.dropbox.com/scl/fi/zzhundmlah7rtkb88846m/prorooflead-logo.png?rlkey=xpefg4fhoqaye1lkwi4z80jlj&st=udlz6g9m&raw=1" alt="ProRoofLead Logo" class="logo">
+         <h3 style="margin-top: 0; font-size: 26px;">The ProRoofLead Sales Team</h3>
+         <p style="font-size: 20px; margin-top: 25px; line-height: 1.5;">(346) 258-8028</p>
+         <p style="font-size: 20px; line-height: 1.5;">sales@prorooflead.com</p>
+         <p style="font-size: 20px; line-height: 1.5;"><a href="https://prorooflead.com" target="_blank">prorooflead.com</a></p>
+         <p style="margin-top: 45px; font-size: 28px; font-weight: 700; color: #ff8c00; font-family: 'Poppins', sans-serif;">Stop Chasing, Start Closing.</p>
+    </div>
+</div>
+
+<div class="footer-nav">
+    <button onclick="changeSlide(-1)">&larr; Previous</button>
+    <span id="slide-counter">1 / 15</span>
+    <button onclick="changeSlide(1)">Next &rarr;</button>
+</div>
+
+<script>
+    let currentSlide = 1;
+    const slides = document.querySelectorAll('.slide');
+    const totalSlides = slides.length;
+    const counterElement = document.getElementById('slide-counter');
+
+    function showSlide(slideIndex) {
+        slides.forEach((slide, index) => {
+            if (slide) { 
+                if (index === slideIndex - 1) {
+                    // Check if already active to prevent reflow flicker
+                    if (!slide.classList.contains('active')) {
+                        slide.classList.add('active');
+                    }
+                } else {
+                     if (slide.classList.contains('active')) {
+                         slide.classList.remove('active');
+                     }
+                }
+            }
+        });
+        if (counterElement) {
+            counterElement.textContent = `${slideIndex} / ${totalSlides}`;
+        }
+        // Only scroll if not the first slide to prevent jump on load
+        if (slideIndex > 1) {
+            window.scrollTo({ top: 0, behavior: 'smooth' }); 
+        } else {
+             window.scrollTo(0, 0); // Instant jump for first load
+        }
+    }
+
+    function changeSlide(direction) {
+        currentSlide += direction;
+        if (currentSlide < 1) {
+            currentSlide = 1;
+        }
+        if (currentSlide > totalSlides) {
+            currentSlide = totalSlides;
+        }
+        showSlide(currentSlide);
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+         // Show slide 1 instantly without scroll behavior
+         const firstSlide = document.getElementById('slide1');
+         if (firstSlide) {
+             firstSlide.classList.add('active');
+         }
+         if (counterElement) {
+             counterElement.textContent = `1 / ${totalSlides}`;
+         }
+         // Preload subsequent slide images slightly after initial load? (Advanced)
+    });
+
+    // Keyboard navigation
+    document.addEventListener('keydown', (event) => {
+        if (event.key === 'ArrowRight' || event.key === ' ') { 
+            changeSlide(1);
+            event.preventDefault(); // Prevent space bar scrolling page down
+        } else if (event.key === 'ArrowLeft') {
+            changeSlide(-1);
+        }
+    });
+</script>
+
+</body>
+</html>
